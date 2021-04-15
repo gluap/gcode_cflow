@@ -24,8 +24,19 @@ is always known.
 Usage:
 ------
 Assuming you have already measured your feedrate dependent extrusion and created your config file, with calibration
-data, this filter can be applied as easily as:
+data, this filter can be run as follows to apply the correction::
 
+    cflow ./test.gcode --config ./tests/files/testconfig.yml
+
+or if you want some debug output in your g-code output you can add ``--debug``, the resulting g-code will
+then contain the original g-code as follows::
+
+    G1 X92.813 Y78.479 E0.05851;was: G1 X92.813 Y78.479 E0.05851 e=7.81005944548757 mm³/s
+    G1 X93.546 Y78.030 E0.02907;was: G1 X93.546 Y78.030 E0.02907 e=7.803128087186357 mm³/s
+    G1 X94.286 Y77.594 E0.02907;was: G1 X94.286 Y77.594 E0.02907 e=7.809433201922295 mm³/s
+    G1 X95.798 Y76.756 E0.05851;was: G1 X95.798 Y76.756 E0.05851 e=7.809528195040778 mm³/s
+    G1 X96.557 Y76.361 E0.02898;was: G1 X96.557 Y76.361 E0.02898 e=7.81491476716116 mm³/s
+    G1 X98.108 Y75.604 E0.05842;was: G1 X98.108 Y75.604 E0.05842 e=7.810250439017135 mm³/s
 
 
 Measuring your feedrate dependent extrusion offsets

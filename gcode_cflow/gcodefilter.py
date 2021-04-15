@@ -111,7 +111,7 @@ class GcodeFilter:
 
         line = f"{new_line}"
         if self.debug:
-            line += ";was: {line} e={self.speed_in_qmms} mm³/s"
+            line += f";was: {line} e={self.speed_in_qmms} mm³/s"
         return line
 
     def update_coords(self, line):
