@@ -1,10 +1,11 @@
-Flow compensator
-================
-A rudimentary g-code filter to make extruder-speed dependent adjustments to g-code
+gcode-cflow
+===========
+A rudimentary g-code filter to make extruder-speed dependent adjustments to g-code.
 
 Different sources suggest that at high extrusion speeds, filament deformation in the extruder due to back pressure
 leads to a dynamic underextrusion. The higher the extrusion speed, the higher the back pressure and the lower the
-amount of filament actually extruded. One good explanation can be found `here <https://youtu.be/0xRtypDjNvI>`_
+amount of filament actually extruded. One good explanation can be found `here <https://youtu.be/0xRtypDjNvI>`_.
+this happens way before extruder slipping.
 
 This is a small g-code filter script that does the following:
 

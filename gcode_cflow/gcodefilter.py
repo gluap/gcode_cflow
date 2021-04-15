@@ -7,15 +7,18 @@ import logging
 import math
 import re
 from collections import deque
+from pathlib import Path
 
 from scipy.interpolate import interp1d
+
+from .config import load_config
 
 logger = logging.getLogger(__name__)
 
 M83 = re.compile("[^;]*M83", flags=re.IGNORECASE)
 M82 = re.compile("[^;]*M82", flags=re.IGNORECASE)
 G1 = re.compile("G[0]?1")
-GARC = re.compile("G[0]?[234]\s+")
+GARC = re.compile("G[0]?[23]\s+")
 
 X = re.compile("X(?P<x>[0-9.]+)")
 Y = re.compile("Y(?P<y>[0-9.]+)")
@@ -24,12 +27,11 @@ E = re.compile("E(?P<e>[0-9.]+)")
 
 F = re.compile("F(?P<feed>\d+)")
 
-MANGLING_TABLE = [[0, 1, 3, 5, 10, 15], [1, 1, 0.59 / 0.57, 0.59 / 0.55, 0.59 / 0.51, 0.59/0.43]]
-mangling_function = interp1d(MANGLING_TABLE[0], MANGLING_TABLE[1], kind="cubic")
 
-
-class GcodeWarper:
-    def __init__(self, gcode):
+class GcodeFilter:
+    def __init__(self, gcode, debug=False, config=Path.home() / "gcode_cflow.cfg"):
+        self.interpolation = lambda x: 1.0
+        self.configfile = config
         self.gcode_queue = deque(gcode)
         self.output = []
         self.absolute = True
@@ -42,6 +44,12 @@ class GcodeWarper:
         self.ystep = 0
         self.zstep = 0
         self.estep = 0
+        self.debug = debug
+        self.init_interpolation()
+
+    def init_interpolation(self):
+        config = load_config(self.configfile)
+        self.interpolation = interp1d(config.values_speeds, [config.reference/e for e in config.values_extruded])
 
     @property
     def lines_left(self):
@@ -73,23 +81,28 @@ class GcodeWarper:
 
     @property
     def speed_in_qmms(self):
-        time = (self.xstep**2+self.ystep**2)**0.5 / self.f * 60.
+        time = (self.xstep ** 2 + self.ystep ** 2 + self.estep ** 2) ** 0.5 / self.f * 60.
         return self.estep * (1.75 ** 2 / 4) * math.pi / time if time > 0 else 0
 
     @property
     def adapted_feed(self):
-        feed_factor = mangling_function(self.speed_in_qmms)
+        feed_factor = self.interpolation(self.speed_in_qmms)
         return self.estep * feed_factor
 
     @property
     def adapted_evalue(self):
         if not self.absolute:
             return self.adapted_feed
+        if self.absolute:
+            raise Exception("absolute extrusion not implemented, please use relative extrusion in your g-code.")
 
     def adapt_extrusion_if_present(self, line):
         self.update_coords_and_compute_distance(line)
         new_line = re.sub(E, f"E{self.adapted_feed:.5f}", line)
-        line = f"{new_line}"#; was: {line} e={self.speed_in_qmms} mm³/s"
+
+        line = f"{new_line}"
+        if self.debug:
+            line += ";was: {line} e={self.speed_in_qmms} mm³/s"
         return line
 
     def update_coords_and_compute_distance(self, line):
@@ -125,17 +138,3 @@ class GcodeWarper:
             self.e = new_e
         else:
             self.estep = 0
-
-
-def main():
-    in_gcode = open("test.gcode", "r").readlines()
-    gw = GcodeWarper(in_gcode)
-    out_gcode = open("test_out.gcode", "w")
-    while gw.lines_left:
-        line = gw.read_line()
-        out_gcode.write(line)
-        print(line)
-
-
-if __name__ == "__main__":
-    main()
