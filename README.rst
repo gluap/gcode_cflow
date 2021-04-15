@@ -105,24 +105,15 @@ of 1.75mm diameter *d* filament of density ρ (PLA: *ρ*=1.24g/cm³) expected ma
 .. math::
    m = l\cdot \left(\frac{d}{2}\right)^{2} \pi \cdot \rho
 
-in our case
+in my case the expected value for *m* would be calculated as:
 
 .. math::
-   *m* = l\cdot \left(\frac{d}{2}\right)^{2} \pi \cdot \rho = 200\mathrm{mm}\cdot\frac{1.75\mathrm{mm}}{2}^2\pi\cdot 1.24 \frac{\mathrm{g}}{\mathrm{cm}³}=0.5965g
+   m = l\cdot \left(\frac{d}{2}\right)^{2} \pi \cdot \rho = 200\mathrm{mm}\cdot\frac{1.75\mathrm{mm}}{2}^2\pi\cdot 1.24 \frac{\mathrm{g}}{\mathrm{cm}³}=0.5965g
 
-If your lowest extrusion isn't rather near to the calculated value, you may want to check your e-steps.
+*m*=0.5965 is pretty close to the 0.60 I measured, so it seems that indeed at low speeds the extrusion
+is working as it should.
 
-
-
-```yaml
-# the reference value of filament extruded in grams (calculated or measured at very low feed rate)
-reference: 0.60
-# the feed rates at which extrusion values have been measured in mm³/s
-values_speeds: [ 0, 1, 3, 5, 10]
-# the actual amount of filament extruded for the volumetric speeds above
-values_extruded: [ 0.6, 0.6, 0.57, 0.55, 0.51 ]
-```
-
+If your even low speed extrusion isn't rather near to the calculated value, you may want to check your e-steps.
 
 Known shortcomings
 ------------------
