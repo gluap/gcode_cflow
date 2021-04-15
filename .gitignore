@@ -1,3 +1,5 @@
 venv/**
 test*.gcode
 extrusion_test.gcode
+.idea
+.pytest_cache
