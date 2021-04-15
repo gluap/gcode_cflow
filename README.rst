@@ -21,6 +21,12 @@ few mm this will actually be detrimental to print quality causing over-extrusion
 Implemented in firmware this shortcoming could be avoided because during motion planning the exact extruder speed
 is always known.
 
+Setup:
+------
+Installieren (aktueller python interpreter erforderlich) per::
+
+   pip install git+https://github.com/gluap/gcode_cflow.git
+
 Usage:
 ------
 Assuming you have already measured your feedrate dependent extrusion and created your config file, with calibration
@@ -110,7 +116,7 @@ in my case the expected value for *m* would be calculated as:
 .. math::
    m = l\cdot \left(\frac{d}{2}\right)^{2} \pi \cdot \rho = 200\mathrm{mm}\cdot\frac{1.75\mathrm{mm}}{2}^2\pi\cdot 1.24 \frac{\mathrm{g}}{\mathrm{cm}³}=0.5965g
 
-*m*=0.5965 is pretty close to the 0.60 I measured, so it seems that indeed at low speeds the extrusion
+*m* = 0.5965 is pretty close to the 0.60 I measured, so it seems that indeed at low speeds the extrusion
 is working as it should.
 
 If your even low speed extrusion isn't rather near to the calculated value, you may want to check your e-steps.

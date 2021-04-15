@@ -20,7 +20,7 @@ setup(name='gcode_cflow',
       author_email='pypi@pgoergen.de',
       license='MIT',
 
-      packages=['gcode_cflow'],
+      packages=['gcode_cflow','gcode_cflow.scripts'],
 
       install_requires=[
           'typer', 'scipy', 'pydantic', 'pyyaml'
