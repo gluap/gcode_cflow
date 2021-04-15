@@ -9,6 +9,10 @@ def convert(
         input_file: Path = typer.Argument(None, exists=True),
         config: Path = typer.Option(Path.home() / "gcode_cflow.cfg", help="defaults to <USER_HOME>/gcode_cflow.cfg"),
         debug: bool = typer.Option(False)):
+    if input_file is None:
+        typer.echo("need input file as argument")
+        return
+
     in_gcode = open(input_file, "r").readlines()
     gw = GcodeFilter(in_gcode, config=config, debug=debug)
     out_gcode = open(input_file.parent / (input_file.name + ".converted.gcode"), "w")
