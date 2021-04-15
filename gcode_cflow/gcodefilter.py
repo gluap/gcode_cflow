@@ -71,13 +71,8 @@ class GcodeFilter:
         return line + "\n"
 
     def process_move(self, line):
-        self.check_for_feed_change(line)
+        self.update_coords(line)
         return self.adapt_extrusion_if_present(line)
-
-    def check_for_feed_change(self, line):
-        f_in_line = F.search(line)
-        if f_in_line:
-            self.f = float(f_in_line.groupdict()["feed"])
 
     @property
     def speed_in_qmms(self):
@@ -97,7 +92,6 @@ class GcodeFilter:
             raise Exception("absolute extrusion not implemented, please use relative extrusion in your g-code.")
 
     def adapt_extrusion_if_present(self, line):
-        self.update_coords_and_compute_distance(line)
         new_line = re.sub(E, f"E{self.adapted_feed:.5f}", line)
 
         line = f"{new_line}"
@@ -105,12 +99,15 @@ class GcodeFilter:
             line += ";was: {line} e={self.speed_in_qmms} mm³/s"
         return line
 
-    def update_coords_and_compute_distance(self, line):
+    def update_coords(self, line):
         new_x, new_y, new_z = self.x, self.y, self.z
+        f_in_line = F.search(line)
         x_in_line = X.search(line)
         y_in_line = Y.search(line)
         z_in_line = Z.search(line)
         e_in_line = E.search(line)
+        if f_in_line:
+            self.f = float(f_in_line.groupdict()["feed"])
         if x_in_line:
             new_x = float(x_in_line.groupdict()["x"])
             self.xstep = new_x - self.x
