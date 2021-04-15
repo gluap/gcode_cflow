@@ -18,14 +18,14 @@ logger = logging.getLogger(__name__)
 M83 = re.compile("[^;]*M83", flags=re.IGNORECASE)
 M82 = re.compile("[^;]*M82", flags=re.IGNORECASE)
 G1 = re.compile("G[0]?1")
-GARC = re.compile("G[0]?[23]\s+")
+GARC = re.compile(r"G[0]?[23]\s+")
 
 X = re.compile("X(?P<x>[0-9.]+)")
 Y = re.compile("Y(?P<y>[0-9.]+)")
 Z = re.compile("Z(?P<z>[0-9.]+)")
 E = re.compile("E(?P<e>[0-9.]+)")
 
-F = re.compile("F(?P<feed>\d+)")
+F = re.compile(r"F(?P<feed>[0-9.]+)")
 
 
 class GcodeFilter:
@@ -35,7 +35,7 @@ class GcodeFilter:
         self.gcode_queue = deque(gcode)
         self.output = []
         self.absolute = True
-        self.f = 150
+        self.f = 0
         self.x = 0
         self.y = 0
         self.z = 0
