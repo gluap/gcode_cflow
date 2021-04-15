@@ -10,7 +10,7 @@ def convert(
         config: Path = typer.Option(Path.home() / "gcode_cflow.cfg", help="defaults to <USER_HOME>/gcode_cflow.cfg"),
         debug: bool = typer.Option(False)):
     if input_file is None:
-        typer.echo("need input file as argument")
+        typer.echo("need input file as argument, use --help for help")
         return
 
     in_gcode = open(input_file, "r").readlines()
