@@ -6,7 +6,6 @@ from pydantic import BaseModel
 
 
 class Config(BaseModel):
-    reference: float
     values_speeds: List[float]
     values_extruded: List[float]
 

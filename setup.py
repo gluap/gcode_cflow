@@ -33,6 +33,6 @@ setup(name='gcode_cflow',
           'pytest'
       ],
 
-      entry_points={'console_scripts': ['cflow=gcode_cflow/scripts/cflow:main']},
+      entry_points={'console_scripts': ['cflow=gcode_cflow.scripts.cflow:main']},
       long_description=open('README.rst', 'r').read()
       )

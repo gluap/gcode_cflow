@@ -1,0 +1,4 @@
+# the feed rates at which extrusion values have been measured in mm³/s
+values_speeds: [ 1, 3, 5, 10 ]
+# the actual amount of filament extruded for the volumetric speeds above
+values_extruded: [ 0.6, 0.57, 0.55, 0.51 ]
