@@ -1,6 +1,6 @@
 gcode-cflow
 ===========
-A rudimentary g-code filter to experimentally make feedrate dependent adjustments to g-code for 3D printers.
+A rudimentary g-code filter to experimentally make feedrate dependent extrusion adjustments to g-code for 3D printers.
 
 Different sources suggest that at high extrusion speeds, filament deformation in the extruder due to back pressure
 leads to a dynamic underextrusion. The higher the extrusion speed, the higher the back pressure and the lower the
@@ -15,8 +15,9 @@ This is a small g-code filter script that does the following:
 
 **This will be detrimental to print quality of small details:**
 This will only be useful (if at all) for large models with long edges. At high feed rates even with high accelerations
-above 4000 mm/s², acceleration from zero to the desired feed rate takes a few mm. So for models and details below a
-few mm this will actually be detrimental to print quality causing over-extrusion.
+above 4000 mm/s², acceleration from zero to x/y feeds of 100 and above mm/s takes a few mm.
+So for models and details below a few mm this compensation will actually be detrimental to print quality by causing
+over-extrusion during acceleration and deceleration.
 
 Implemented in firmware this shortcoming could be avoided because during motion planning the exact extruder speed
 is always known.
