@@ -1,6 +1,8 @@
 gcode-cflow
 ===========
 A rudimentary g-code filter to experimentally make feedrate dependent extrusion adjustments to g-code for 3D printers.
+Using this script it I had quite acceptable results compensating flow loss at high print speeds
+in experimental prints: `results <my_results.rst>`_.
 
 Different sources suggest that at high extrusion speeds, filament deformation in the extruder due to back pressure
 leads to a dynamic underextrusion. The higher the extrusion speed, the higher the back pressure and the lower the
@@ -130,4 +132,4 @@ For this reason the optimal location to implement this kind of flow compensation
  - Only g-code using relative extrusions can be processed (I use Prusa Slicer)
  - Arc moves are not supported (but the output can be arcified by ArcWelder if desired
 
-Keep in mind that this is meant to be a demonstrator to evaluate whether the feature would be helpful
+Keep in mind that this is meant to be a demonstrator to evaluate whether the feature would be helpful.
