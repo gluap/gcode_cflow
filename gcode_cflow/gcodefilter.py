@@ -109,7 +109,9 @@ class GcodeFilter:
         try:
             new_line = re.sub(E, f"E{self.adapted_estep:.5f}", line)
         except:
-            print(f"speed: {self.speed_in_qmms}, line: {line}")
+            # if we are not moving we are just part of a retraction
+            if not self.xstep == 0 and self.ystep == 0 and self.zstep == 0:
+                print(f"speed: {self.speed_in_qmms}, line: {line}")
             new_line = line
 
         line = f"{new_line}"
@@ -153,7 +155,7 @@ class GcodeFilter:
             self.e = new_e
             if new_e < 0:
                 self.last_extrude = LastRetract.CURRENT_LINE
-            elif self.last_extrude == LastRetract.LAST_LINE:
+            elif self.last_extrude != LastRetract.LONG_AGO:
                 self.last_extrude = LastRetract.LONG_AGO
         else:
             self.estep = 0
