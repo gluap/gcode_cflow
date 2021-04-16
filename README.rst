@@ -1,13 +1,19 @@
 gcode-cflow
 ===========
-A rudimentary g-code filter to experimentally make feedrate dependent extrusion adjustments to g-code for 3D printers.
-Using this script it I had quite acceptable results compensating flow loss at high print speeds
-in experimental prints: `results <my_results.rst>`_.
+This is a rudimentary g-code filter to experimentally make feedrate dependent extrusion adjustments to g-code for 3D
+printers. Using this script it I had quite acceptable results compensating flow loss at high print speeds in
+experimental prints: `results <my_results.rst>`_.
 
-Different sources suggest that at high extrusion speeds, filament deformation in the extruder due to back pressure
-leads to a dynamic underextrusion. The higher the extrusion speed, the higher the back pressure and the lower the
-amount of filament actually extruded. One good explanation can be found `here <https://youtu.be/0xRtypDjNvI>`_.
-this happens way before extruder slipping.
+At high extrusion speeds, filament deformation in the extruder due to back pressure leads to a dynamic underextrusion.
+The higher the extrusion speed, the higher the back pressure and the lower the amount of filament actually extruded.
+A good explanation by Stefan Hermann (cnc kitchen) can be found `here as a video <https://youtu.be/0xRtypDjNvI>`_ or
+`here as text <https://www.cnckitchen.com/blog/flow-rate-benchmarking-of-a-hotend>`_. The effect happens way before extruder
+slipping. Underextrusions can easily be reached at feedrates that can still easily be managed by a cheap 3d printer,
+making this a core limitation to print speeds.
+
+My theory is that once measured the underextrusion can be compensated for in software, allowing one to print faster
+even with cheaper hotends. Other people are of the same opionion, for instance in this
+`klipper feature request <https://github.com/KevinOConnor/klipper/issues/2610>`_.
 
 This is a small g-code filter script that does the following:
 
