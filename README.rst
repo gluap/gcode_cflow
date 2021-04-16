@@ -1,9 +1,26 @@
 gcode-cflow
 ===========
-This is a rudimentary g-code filter to experimentally make feedrate dependent extrusion adjustments to g-code for 3D
-printers. Using this script it I had quite acceptable results compensating flow loss at high print speeds in
-experimental prints: `results <my_results.rst>`_.
 
+.. topic:: Abstract
+
+   This is a rudimentary g-code filter to experimentally make feedrate dependent extrusion adjustments to g-code for 3D
+   printers. Using this script it I had quite acceptable results compensating flow loss at high print speeds in
+   experimental prints: `results <my_results.rst>`_ improving high speed print results:
+
+.. figure:: images/delamination.jpg
+  :width: 200
+  :alt: file 2 delamination
+
+  before compensation: delamination due to underextrusion
+
+.. figure:: images/no_delamination.jpg
+  :width: 200
+  :alt: file 2 delamination
+
+  after compensation: stable
+
+Motivation
+----------
 At high extrusion speeds, filament deformation in the extruder due to back pressure leads to a dynamic underextrusion.
 The higher the extrusion speed, the higher the back pressure and the lower the amount of filament actually extruded.
 A good explanation by Stefan Hermann (cnc kitchen) can be found `here as a video <https://youtu.be/0xRtypDjNvI>`_ or
@@ -27,19 +44,22 @@ above 4000 mm/s², acceleration from zero to x/y feeds of 100 and above mm/s tak
 So for models and details below a few mm this compensation will actually be detrimental to print quality by causing
 over-extrusion during acceleration and deceleration.
 
+The results of this demonstrator will be best when printing large-scale detail like the demonstration print at
+high accelerations.
+
 Implemented in firmware this shortcoming could be avoided because during motion planning the exact extruder speed
 is always known.
 
 Setup:
 ------
-Install (requires recent python version, probably 3.7 is new enough)::
+Installation (requires recent python version, probably 3.7 is new enough)::
 
    pip install git+https://github.com/gluap/gcode_cflow.git
 
 Usage:
 ------
-Assuming you have already measured your feedrate dependent extrusion and created your config file, with calibration
-data, this filter can be run as follows to apply the correction::
+Assuming you have already measured your feedrate dependent extrusion (details below) and created your config file
+with calibration data, this filter can be used as follows to apply the correction to existing g-code::
 
     cflow ./test.gcode --config ./tests/files/testconfig.yml
 
@@ -139,3 +159,11 @@ For this reason the optimal location to implement this kind of flow compensation
  - Arc moves are not supported (but the output can be arcified by ArcWelder if desired
 
 Keep in mind that this is meant to be a demonstrator to evaluate whether the feature would be helpful.
+
+Conclusion
+----------
+While this is a mere demonstration I believe the results are promising. I was able to convert g-code that was
+underextruding by more than 10% due to fast print speed and resulting in poor vertical layer adhesion into one that
+was extruding within 2% of the expected amount. Ihope that application in printer firmware can make it usable while
+overcoming the shortcomings of this demonstrator - namely not being applicable for acceleration-dominated prints because
+of unknown extrusion speeds during acceleration in print details.
