@@ -15,10 +15,12 @@ def convert(
 
     in_gcode = open(input_file, "r").readlines()
     gw = GcodeFilter(in_gcode, config=config, debug=debug)
-    out_gcode = open(input_file.parent / (input_file.name + ".converted.gcode"), "w")
+    output_filename=input_file.name.replace(".gcode","") + ".converted.gcode"
+    out_gcode = open(input_file.parent / output_filename, "w")
     while gw.lines_left:
         line = gw.read_line()
         out_gcode.write(line)
+    typer.echo(f"File conversion finished, converted file in {output_filename}")
 
 
 def main():
