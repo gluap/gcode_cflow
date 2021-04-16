@@ -24,7 +24,7 @@ is always known.
 
 Setup:
 ------
-Installieren (aktueller python interpreter erforderlich) per::
+Install (requires recent python version, probably 3.7 is new enough)::
 
    pip install git+https://github.com/gluap/gcode_cflow.git
 
@@ -38,12 +38,9 @@ data, this filter can be run as follows to apply the correction::
 or if you want some debug output in your g-code output you can add ``--debug``, the resulting g-code will
 then contain the original g-code as follows::
 
-    G1 X92.813 Y78.479 E0.05851;was: G1 X92.813 Y78.479 E0.05851 e=7.81005944548757 mm³/s
-    G1 X93.546 Y78.030 E0.02907;was: G1 X93.546 Y78.030 E0.02907 e=7.803128087186357 mm³/s
-    G1 X94.286 Y77.594 E0.02907;was: G1 X94.286 Y77.594 E0.02907 e=7.809433201922295 mm³/s
-    G1 X95.798 Y76.756 E0.05851;was: G1 X95.798 Y76.756 E0.05851 e=7.809528195040778 mm³/s
-    G1 X96.557 Y76.361 E0.02898;was: G1 X96.557 Y76.361 E0.02898 e=7.81491476716116 mm³/s
-    G1 X98.108 Y75.604 E0.05842;was: G1 X98.108 Y75.604 E0.05842 e=7.810250439017135 mm³/s
+    G1 X87.241 Y82.527 E0.04999 ; e=7.807667498995422 mm³/s - Original line: G1 X87.241 Y82.527 E0.04999
+    G1 X87.902 Y81.982 E0.02899 ; e=7.807814048238463 mm³/s - Original line: G1 X87.902 Y81.982 E0.02899
+    G1 X89.262 Y80.920 E0.05842 ; e=7.811830221248318 mm³/s - Original line: G1 X89.262 Y80.920 E0.05842
 
 
 Measuring your feedrate dependent extrusion offsets

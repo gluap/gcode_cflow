@@ -98,6 +98,9 @@ class GcodeFilter:
     @property
     def adapted_estep(self):
         if self.last_extrude != LastRetract.LONG_AGO:
+            # Last move was a retraction, so we don't modify esteps - retracts are very fast
+            # so we likely have no interpolation data for them but they
+            # don't create high pressure
             return self.estep
         feed_factor = self.interpolation(abs(self.speed_in_qmms))
         return self.estep * feed_factor
@@ -111,7 +114,7 @@ class GcodeFilter:
 
         line = f"{new_line}"
         if self.debug:
-            line += f";was: {line} e={self.speed_in_qmms} mm³/s"
+            line += f" ; e={self.speed_in_qmms} mm³/s - Original line: {line}"
         return line
 
     def update_coords(self, line):
