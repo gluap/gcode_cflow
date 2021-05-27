@@ -1,5 +1,7 @@
 ; Extrusion test g-code by cnc Kitchen (https://www.cnckitchen.com)
 ; reused here with permission under MIT license
+; with modifications
+;
 ; Extrusion test speed table:
 ; 1 mm³/s = 25 mm/min
 ; 2 mm³/s = 50 mm/min
@@ -12,13 +14,13 @@
 ; 17.5 mm³/s = 437 mm/min
 ; 20 mm³/s = 499 mm/min
 
-M104 S200				; Set Nozzle Temperature
-M109
+M109 S230				; Set Nozzle Temperature HERE
+
 G1 X150 Y80 Z60 F10000	; Go to extrusion position
 M83						; Relative Extrusions
 G1 F200 				; Prime
 G1 E20
-G4 S2
+G4 P2000                ; Wait for 2000 miliseconds (2 seconds)
 
 G1 F25 					; Set Extrusion Speed in mm/min HERE
 
